@@ -251,6 +251,58 @@
   nav a.nl:hover{opacity:1;color:var(--amber);}
   @media (max-width:760px){ nav .navlinks{display:none;} }
 
+  /* ---------- mobile nav: scissors toggle ---------- */
+  .scissor-toggle{
+    display:none;align-items:center;justify-content:center;
+    width:2.6rem;height:2.6rem;padding:0;margin:0;flex:none;
+    background:none;border:none;color:var(--paper);cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .scissor-toggle svg{width:1.85rem;height:1.85rem;overflow:visible;}
+  .scissor-toggle .blade{transform-origin:0 0;transition:transform 0.45s cubic-bezier(.2,.8,.2,1),color 0.3s ease;}
+  .scissor-toggle .blade-a{transform:rotate(-27deg);}
+  .scissor-toggle .blade-b{transform:rotate(27deg);}
+  .scissor-toggle[aria-expanded="true"]{color:var(--amber);}
+  .scissor-toggle[aria-expanded="true"] .blade-a{transform:rotate(-58deg);}
+  .scissor-toggle[aria-expanded="true"] .blade-b{transform:rotate(58deg);}
+  @media (max-width:760px){ .scissor-toggle{display:inline-flex;} }
+
+  .mobile-nav{
+    position:fixed;inset:0;z-index:90;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:6.5rem var(--pad) 3rem;
+    background:var(--ink);
+    opacity:0;visibility:hidden;
+    transform:translateY(-14px);
+    transition:opacity 0.4s ease,transform 0.4s cubic-bezier(.2,.8,.2,1),visibility 0s linear 0.4s;
+  }
+  .mobile-nav.is-open{
+    opacity:1;visibility:visible;transform:translateY(0);
+    transition:opacity 0.4s ease,transform 0.4s cubic-bezier(.2,.8,.2,1),visibility 0s linear 0s;
+  }
+  .mobile-nav-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;}
+  .mobile-nav-list li{border-top:1px solid var(--line);}
+  .mobile-nav-list li:last-child{border-bottom:1px solid var(--line);}
+  .mobile-nav-link{
+    display:flex;align-items:baseline;gap:0.9rem;
+    padding:1.05rem 0.15rem;
+    font-family:var(--font-display);
+    text-transform:uppercase;
+    font-size:clamp(1.7rem,9vw,2.6rem);
+    letter-spacing:0.005em;
+    color:var(--paper);
+    text-decoration:none;
+    transition:color 0.25s ease;
+  }
+  .mnl-index{font-size:0.85rem;letter-spacing:0.1em;color:var(--amber);}
+  .mobile-nav-link:hover,.mobile-nav-link:active{color:var(--amber);}
+  .mobile-nav-foot{
+    margin-top:2.2rem;
+    display:flex;flex-direction:column;align-items:flex-start;gap:1rem;
+  }
+  html.nav-open,html.nav-open body{overflow:hidden;}
+  @media (min-width:761px){ .mobile-nav{display:none;} }
+
   /* ---------- hero ---------- */
   .hero{
     position:relative;
@@ -557,23 +609,27 @@
   }
 
   .map-info-panel{
-    position:absolute;left:1rem;bottom:1rem;z-index:2;
-    max-width:18rem;
-    background:rgba(19,17,16,0.74);backdrop-filter:blur(10px);
-    border:1px solid var(--line-strong);
-    padding:1.15rem 1.3rem;
-    display:flex;flex-direction:column;gap:0.85rem;
+    position:absolute;left:0;right:0;bottom:0;z-index:2;
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;row-gap:0.6rem;column-gap:1.5rem;
+    padding:0.9rem 1.2rem;
+    background:rgba(19,17,16,0.8);backdrop-filter:blur(10px);
   }
+  .map-info-panel::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:4px;
+    background:repeating-linear-gradient(-45deg,var(--pole) 0 10px,var(--paper) 10px 20px);
+    opacity:0.9;
+  }
+  .map-info-id{display:flex;align-items:center;gap:0.7em;}
+  .map-info-id .ico{width:1.4em;height:1.4em;color:var(--amber);flex:none;}
+  .map-info-id-text{display:flex;flex-direction:column;gap:0.15em;}
   .map-info-eyebrow{
     font-family:var(--font-display);font-size:var(--fs-micro);
     letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);
   }
-  .map-info-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0.55rem;}
-  .map-info-list li{display:flex;align-items:center;gap:0.65em;font-size:var(--fs-small);color:var(--paper);}
-  .map-info-list svg{width:15px;height:15px;flex:none;color:var(--amber);}
+  .map-info-addr{font-size:var(--fs-small);color:var(--paper);opacity:0.85;}
 
   .map-open-btn{
-    align-self:flex-start;
     display:inline-flex;align-items:center;gap:0.5em;
     font-family:var(--font-display);letter-spacing:0.06em;text-transform:uppercase;font-size:var(--fs-micro);
     color:var(--ink);background:var(--amber);border:1px solid var(--amber);
@@ -582,8 +638,9 @@
     transition:filter 0.25s ease;
   }
   .map-open-btn:hover{filter:brightness(1.1);}
-  @media (max-width:640px){
-    .map-info-panel{max-width:none;right:1rem;}
+  @media (max-width:520px){
+    .map-info-panel{justify-content:center;text-align:center;}
+    .map-info-id{flex-direction:column;gap:0.3em;}
   }
 
   .clock-card{
@@ -701,9 +758,39 @@
       <a class="nl" href="#gallery">Атмосфера</a>
       <a class="nl" href="#hours">Адрес</a>
     </div>
+    <button class="scissor-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Открыть меню">
+      <svg viewBox="-50 -50 100 100" aria-hidden="true">
+        <g class="blade blade-a">
+          <path d="M0,-44 Q3.6,-24 4.6,-4 L4.6,7 L-4.6,7 Q-3.6,-24 0,-44 Z" fill="currentColor"/>
+          <line x1="0" y1="7" x2="0" y2="28" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="0" cy="39" r="12" fill="none" stroke="currentColor" stroke-width="6"/>
+        </g>
+        <g class="blade blade-b">
+          <path d="M0,-44 Q3.6,-24 4.6,-4 L4.6,7 L-4.6,7 Q-3.6,-24 0,-44 Z" fill="currentColor"/>
+          <line x1="0" y1="7" x2="0" y2="28" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="0" cy="39" r="12" fill="none" stroke="currentColor" stroke-width="6"/>
+        </g>
+        <circle cx="0" cy="0" r="4" fill="currentColor"/>
+      </svg>
+    </button>
     <a class="btn btn-solid" href="https://dikidi.net/501585" target="_blank" rel="noopener">Записаться</a>
   </nav>
 </header>
+
+<nav class="mobile-nav" id="mobileNav" aria-hidden="true">
+  <ol class="mobile-nav-list">
+    <li><a class="mobile-nav-link" href="#about"><span class="mnl-index">01</span>Философия</a></li>
+    <li><a class="mobile-nav-link" href="#services"><span class="mnl-index">02</span>Услуги</a></li>
+    <li><a class="mobile-nav-link" href="#gallery"><span class="mnl-index">03</span>Атмосфера</a></li>
+    <li><a class="mobile-nav-link" href="#hours"><span class="mnl-index">04</span>Адрес</a></li>
+  </ol>
+  <div class="mobile-nav-foot">
+    <a class="btn btn-solid" href="https://dikidi.net/501585" target="_blank" rel="noopener">
+      <span class="snip"><svg class="ico ico-sm" viewBox="0 0 100 100" aria-hidden="true"><use href="#ico-scissors"></use></svg></span> Записаться онлайн
+    </a>
+    <a class="hero-phone link-snip" href="tel:+79027010690">+7 (902) 701-06-90</a>
+  </div>
+</nav>
 
 <main id="top">
 
@@ -912,21 +999,13 @@
           <iframe class="map-frame" src="https://yandex.ru/map-widget/v1/?text=Вологда%2C%20улица%20Ленинградская%2C%2044&z=17" loading="lazy" title="BEST BRO на карте — Вологда, ул. Ленинградская, 44"></iframe>
 
           <div class="map-info-panel">
-            <span class="map-info-eyebrow">Best Bro · барбершоп</span>
-            <ul class="map-info-list">
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                Ленинградская, 44
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                <a href="tel:+79027010690" style="color:inherit;text-decoration:none;">+7 (902) 701-06-90</a>
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                Ежедневно 11:00–21:00
-              </li>
-            </ul>
+            <div class="map-info-id">
+              <svg class="ico" viewBox="0 0 100 100" aria-hidden="true"><use href="#ico-scissors"></use></svg>
+              <div class="map-info-id-text">
+                <span class="map-info-eyebrow">Best Bro · барбершоп</span>
+                <span class="map-info-addr">Ленинградская, 44</span>
+              </div>
+            </div>
             <a class="map-open-btn" href="https://yandex.ru/maps/?text=Вологда%2C%20улица%20Ленинградская%2C%2044" target="_blank" rel="noopener">Открыть Яндекс Карты →</a>
           </div>
         </div>
@@ -1028,6 +1107,30 @@
     });
     heroSection.addEventListener('mouseleave',function(){
       heroImg.style.transform = 'scale(1.08) translate(0,0)';
+    });
+  }
+
+  // mobile nav: scissors-toggle full-screen menu
+  var navToggle = document.getElementById('navToggle');
+  var mobileNav = document.getElementById('mobileNav');
+  if(navToggle && mobileNav){
+    function setNavOpen(open){
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      mobileNav.classList.toggle('is-open', open);
+      mobileNav.setAttribute('aria-hidden', open ? 'false' : 'true');
+      document.documentElement.classList.toggle('nav-open', open);
+    }
+    navToggle.addEventListener('click', function(){
+      setNavOpen(navToggle.getAttribute('aria-expanded') !== 'true');
+    });
+    mobileNav.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){ setNavOpen(false); });
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') setNavOpen(false);
+    });
+    window.addEventListener('resize', function(){
+      if(window.innerWidth > 760) setNavOpen(false);
     });
   }
 })();
