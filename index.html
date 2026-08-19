@@ -3,7 +3,47 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BEST BRO</title>
+<title>BEST BRO — барбершоп в Вологде, ул. Ленинградская, 44</title>
+<meta name="description" content="BEST BRO — барбершоп в Вологде для тех, кому важны детали. Мужские и детские стрижки, Welcome Detox спа-ритуал. Ежедневно 11:00–21:00, ул. Ленинградская, 44.">
+<meta name="theme-color" content="#131110">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="BEST BRO">
+<meta property="og:title" content="BEST BRO — барбершоп в Вологде">
+<meta property="og:description" content="Мужские и детские стрижки, Welcome Detox спа-ритуал. Без пафоса, с характером. Ежедневно 11:00–21:00, ул. Ленинградская, 44.">
+<meta property="og:image" content="assets/img/album8.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BEST BRO — барбершоп в Вологде">
+<meta name="twitter:description" content="Мужские и детские стрижки, Welcome Detox спа-ритуал. Ежедневно 11:00–21:00, ул. Ленинградская, 44.">
+<meta name="twitter:image" content="assets/img/album8.jpg">
+
+<link rel="preload" href="assets/fonts/oswald700cyr.woff2" as="font" type="font/woff2" crossorigin>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HairSalon",
+  "name": "BEST BRO",
+  "image": "assets/img/album8.jpg",
+  "telephone": "+7-902-701-06-90",
+  "priceRange": "₽₽",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "ул. Ленинградская, 44",
+    "addressLocality": "Вологда",
+    "addressCountry": "RU"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "11:00",
+    "closes": "21:00"
+  },
+  "sameAs": ["https://vk.ru/bestbro35"]
+}
+</script>
 <style>
   @font-face{
     font-family:'Oswald Bro';
@@ -407,7 +447,38 @@
   }
   .svc-card:hover{transform:translateY(-6px);border-color:var(--amber-dim);}
   .svc-card .photo{aspect-ratio:1/1;}
-  .svc-card .photo img{filter:none;}
+  .svc-visual{
+    display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(ellipse at 30% 20%,rgba(207,145,66,0.18),transparent 60%),
+      var(--panel);
+    transition:background 0.4s ease;
+  }
+  .svc-card:hover .svc-visual{
+    background:
+      radial-gradient(ellipse at 30% 20%,rgba(207,145,66,0.28),transparent 62%),
+      var(--panel);
+  }
+  .svc-visual-word{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display);
+    font-size:clamp(2.6rem,11vw,4.4rem);
+    color:var(--paper);
+    opacity:0.06;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    white-space:nowrap;
+    pointer-events:none;
+  }
+  .svc-visual-icon{
+    position:relative;z-index:1;
+    width:32%;height:32%;
+    color:var(--amber);
+    filter:drop-shadow(0 10px 22px rgba(0,0,0,0.45));
+    transition:transform 0.4s cubic-bezier(.2,.7,.2,1);
+  }
+  .svc-card:hover .svc-visual-icon{transform:scale(1.08) rotate(-4deg);}
   .svc-body{padding:1.5rem;display:flex;flex-direction:column;gap:0.6rem;flex:1;}
   .svc-name{font-family:var(--font-display);font-size:var(--fs-h3);}
   .svc-meta{font-size:var(--fs-small);color:var(--stone);}
@@ -434,10 +505,14 @@
     grid-auto-rows:14vw;
     gap:0.9rem;
   }
-  @media (max-width:900px){ .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:44vw;} }
   .g-item{position:relative;grid-column:span 2;}
   .g-item.a{grid-row:span 2;}
   .g-item.b{grid-column:span 3;}
+  @media (max-width:900px){
+    .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:44vw;}
+    .g-item{grid-column:span 1;}
+    .g-item.b{grid-column:span 2;}
+  }
   .g-item .photo{position:absolute;inset:0;border:6px solid var(--paper);box-shadow:var(--shadow);}
   .g-item:nth-child(odd){transform:rotate(-1.4deg);}
   .g-item:nth-child(even){transform:rotate(1.1deg);}
@@ -472,29 +547,14 @@
     border:1px solid var(--line);
     background:var(--panel);
     overflow:hidden;
-    aspect-ratio:900/380;
+    min-height:clamp(320px,45vw,440px);
   }
-  .map-visual > svg{position:absolute;inset:0;width:100%;height:100%;display:block;}
-  .map-pin{transform-box:fill-box;transform-origin:50% 100%;transition:transform 0.35s cubic-bezier(.34,1.56,.64,1);}
-  .map-visual:hover .map-pin{transform:translateY(-4px) scale(1.06);}
-  .map-pin-ping{animation:pinPing 2.6s ease-out infinite;transform-origin:0px 0px;}
-  @keyframes pinPing{
-    0%{transform:scale(0.6);opacity:0.55;}
-    70%{opacity:0;}
-    100%{transform:scale(2.4);opacity:0;}
+  .map-frame{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    border:0;display:block;
+    filter:grayscale(1) sepia(0.28) saturate(2.1) hue-rotate(-8deg) brightness(0.82) contrast(1.12);
   }
-
-  .map-search{
-    position:absolute;top:1rem;left:1rem;right:1rem;z-index:2;
-    display:flex;align-items:center;gap:0.65em;
-    max-width:19rem;
-    background:rgba(19,17,16,0.58);backdrop-filter:blur(8px);
-    border:1px solid var(--line-strong);border-radius:999px;
-    padding:0.7em 1.1em;
-    color:var(--stone);font-size:var(--fs-small);
-  }
-  .map-search svg{width:15px;height:15px;flex:none;color:var(--stone);}
-  .map-search span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
   .map-info-panel{
     position:absolute;left:1rem;bottom:1rem;z-index:2;
@@ -522,7 +582,6 @@
     transition:filter 0.25s ease;
   }
   .map-open-btn:hover{filter:brightness(1.1);}
-  @media (prefers-reduced-motion:reduce){ .map-pin-ping{animation:none;} }
   @media (max-width:640px){
     .map-info-panel{max-width:none;right:1rem;}
   }
@@ -616,6 +675,17 @@
       <circle cx="0" cy="0" r="3.2" fill="currentColor"/>
     </g>
   </symbol>
+  <symbol id="ico-comb" viewBox="0 0 100 100">
+    <rect x="15" y="18" width="70" height="11" rx="4" fill="currentColor"/>
+    <rect x="18" y="29" width="6" height="47" rx="3" fill="currentColor"/>
+    <rect x="33" y="29" width="6" height="47" rx="3" fill="currentColor"/>
+    <rect x="48" y="29" width="6" height="47" rx="3" fill="currentColor"/>
+    <rect x="63" y="29" width="6" height="47" rx="3" fill="currentColor"/>
+    <rect x="76" y="29" width="6" height="47" rx="3" fill="currentColor"/>
+  </symbol>
+  <symbol id="ico-droplet" viewBox="0 0 100 100">
+    <path d="M50,12 C63,32 76,50 76,64 A26,26 0 1,1 24,64 C24,50 37,32 50,12 Z" fill="currentColor"/>
+  </symbol>
 </svg>
 
 <header>
@@ -640,7 +710,7 @@
   <!-- HERO -->
   <section class="hero" style="padding-block-start:0;">
     <div class="hero-bg">
-      <div class="photo"><img src="assets/img/album8.jpg" alt="Интерьер барбершопа BEST BRO"></div>
+      <div class="photo"><img src="assets/img/album8.jpg" alt="Интерьер барбершопа BEST BRO" fetchpriority="high"></div>
     </div>
 
     <div class="hero-top">
@@ -698,7 +768,7 @@
         </div>
       </div>
       <div class="about-frame reveal">
-        <div class="photo"><img src="assets/img/album5.jpg" alt="Стойка барбера BEST BRO"></div>
+        <div class="photo"><img src="assets/img/album5.jpg" alt="Стойка барбера BEST BRO" loading="lazy" decoding="async"></div>
         <div class="tag">Своя косметика White на стойке</div>
       </div>
     </div>
@@ -714,7 +784,10 @@
 
       <div class="svc-grid reveal">
         <article class="svc-card">
-          <div class="photo"><img src="assets/img/svc-men.jpg" alt="Мужская стрижка"></div>
+          <div class="photo svc-visual">
+            <span class="svc-visual-word" aria-hidden="true">Мужская</span>
+            <svg class="svc-visual-icon" viewBox="0 0 100 100" aria-hidden="true"><use href="#ico-scissors"></use></svg>
+          </div>
           <div class="svc-body">
             <h3 class="svc-name">Мужская стрижка</h3>
             <p class="svc-meta">Форма, которая идёт именно вам — а не среднему клиенту.</p>
@@ -726,7 +799,10 @@
         </article>
 
         <article class="svc-card">
-          <div class="photo"><img src="assets/img/svc-kids.jpg" alt="Детская стрижка"></div>
+          <div class="photo svc-visual">
+            <span class="svc-visual-word" aria-hidden="true">Детская</span>
+            <svg class="svc-visual-icon" viewBox="0 0 100 100" aria-hidden="true"><use href="#ico-comb"></use></svg>
+          </div>
           <div class="svc-body">
             <h3 class="svc-name">Детская стрижка</h3>
             <p class="svc-meta">До 8 лет. Терпеливо, аккуратно, без капризов и слёз.</p>
@@ -738,7 +814,10 @@
         </article>
 
         <article class="svc-card">
-          <div class="photo"><img src="assets/img/svc-detox.jpg" alt="Welcome Detox спа-ритуал"></div>
+          <div class="photo svc-visual">
+            <span class="svc-visual-word" aria-hidden="true">Detox</span>
+            <svg class="svc-visual-icon" viewBox="0 0 100 100" aria-hidden="true"><use href="#ico-droplet"></use></svg>
+          </div>
           <div class="svc-body">
             <h3 class="svc-name">Welcome Detox</h3>
             <p class="svc-meta">Спа-ритуал очищения кожи головы — первый шаг перед стрижкой.</p>
@@ -767,23 +846,23 @@
 
       <div class="gallery reveal">
         <div class="g-item a">
-          <div class="photo"><img src="assets/img/album2.jpg" alt="Уход за бородой на стойке"></div>
+          <div class="photo"><img src="assets/img/album2.jpg" alt="Уход за бородой на стойке" loading="lazy" decoding="async"></div>
           <span class="g-cap">Уход, которому доверяют</span>
         </div>
         <div class="g-item b">
-          <div class="photo"><img src="assets/img/album4.jpg" alt="Инструменты барбера"></div>
+          <div class="photo"><img src="assets/img/album4.jpg" alt="Инструменты барбера" loading="lazy" decoding="async"></div>
           <span class="g-cap">Инструмент решает</span>
         </div>
         <div class="g-item">
-          <div class="photo"><img src="assets/img/album7.jpg" alt="Бритьё и уход"></div>
+          <div class="photo"><img src="assets/img/album7.jpg" alt="Бритьё и уход" loading="lazy" decoding="async"></div>
           <span class="g-cap">Детали имеют значение</span>
         </div>
         <div class="g-item b">
-          <div class="photo"><img src="assets/img/album1.jpg" alt="Зона отдыха после стрижки"></div>
+          <div class="photo"><img src="assets/img/album1.jpg" alt="Зона отдыха после стрижки" loading="lazy" decoding="async"></div>
           <span class="g-cap">После стрижки — не выгоняют</span>
         </div>
         <div class="g-item a">
-          <div class="photo"><img src="assets/img/album6.jpg" alt="Аксессуары барбера"></div>
+          <div class="photo"><img src="assets/img/album6.jpg" alt="Аксессуары барбера" loading="lazy" decoding="async"></div>
           <span class="g-cap">Мелочи, из которых всё складывается</span>
         </div>
       </div>
@@ -823,46 +902,14 @@
           <span id="statusText2">—</span>
         </div>
         <div class="clock-note">
-          <div class="photo"><img src="assets/img/album3.jpg" alt="Флип-часы на полке барбершопа"></div>
+          <div class="photo"><img src="assets/img/album3.jpg" alt="Флип-часы на полке барбершопа" loading="lazy" decoding="async"></div>
           <p>Это их собственные часы с полки барбершопа — мы просто научили копию тикать в реальном времени по Вологде.</p>
         </div>
       </div>
 
       <div class="map-card reveal">
         <div class="map-visual">
-          <svg viewBox="0 0 900 380" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <defs>
-              <pattern id="mapGrid" width="26" height="26" patternUnits="userSpaceOnUse">
-                <circle cx="1.2" cy="1.2" r="1.2" style="fill:var(--line)"/>
-              </pattern>
-            </defs>
-            <rect x="0" y="0" width="900" height="380" style="fill:var(--panel)"/>
-            <rect x="0" y="0" width="900" height="380" fill="url(#mapGrid)"/>
-
-            <rect x="34" y="196" width="150" height="76" rx="6" style="fill:var(--stone);opacity:0.1"/>
-            <rect x="560" y="36" width="118" height="94" rx="6" style="fill:var(--stone);opacity:0.1"/>
-            <rect x="706" y="222" width="158" height="96" rx="6" style="fill:var(--stone);opacity:0.1"/>
-            <rect x="330" y="270" width="96" height="64" rx="6" style="fill:var(--stone);opacity:0.08"/>
-            <rect x="760" y="40" width="104" height="62" rx="6" style="fill:var(--stone);opacity:0.08"/>
-
-            <path d="M0,326 C220,306 520,338 900,306" style="fill:none;stroke:var(--line);stroke-width:6;stroke-linecap:round"/>
-            <path d="M-20,255 C220,230 340,270 460,225 C600,175 700,225 920,190" style="fill:none;stroke:var(--stone);stroke-width:15;stroke-linecap:round;opacity:0.55"/>
-            <path d="M250,-20 C270,90 220,220 260,400" style="fill:none;stroke:var(--line-strong);stroke-width:9;stroke-linecap:round"/>
-            <path d="M660,-20 C640,100 690,230 650,400" style="fill:none;stroke:var(--line-strong);stroke-width:9;stroke-linecap:round"/>
-            <path d="M40,80 C220,130 360,190 480,222" style="fill:none;stroke:var(--amber);stroke-width:2.4;stroke-linecap:round;stroke-dasharray:2 9;opacity:0.85"/>
-
-            <g class="map-pin" transform="translate(490,222)">
-              <circle class="map-pin-ping" cx="0" cy="0" r="9" style="fill:none;stroke:var(--amber);stroke-width:2"/>
-              <path d="M0,0 C-17,-24 -17,-43 0,-43 C17,-43 17,-24 0,0 Z" style="fill:var(--amber)"/>
-              <circle cx="0" cy="-26" r="7.5" style="fill:var(--ink)"/>
-            </g>
-            <text x="490" y="158" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="22" letter-spacing="1.5" style="fill:var(--paper);text-transform:uppercase">Best Bro</text>
-          </svg>
-
-          <div class="map-search" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <span>Вологда, ул. Ленинградская, 44</span>
-          </div>
+          <iframe class="map-frame" src="https://yandex.ru/map-widget/v1/?text=Вологда%2C%20улица%20Ленинградская%2C%2044&z=17" loading="lazy" title="BEST BRO на карте — Вологда, ул. Ленинградская, 44"></iframe>
 
           <div class="map-info-panel">
             <span class="map-info-eyebrow">Best Bro · барбершоп</span>
