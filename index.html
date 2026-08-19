@@ -91,7 +91,8 @@
   }
 
   *,*::before,*::after{box-sizing:border-box;}
-  html{-webkit-text-size-adjust:100%;}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+  section[id]{scroll-margin-top:6rem;}
   body{
     margin:0;
     background:var(--ink);
@@ -206,6 +207,7 @@
 
   @media (prefers-reduced-motion:reduce){
     *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;}
+    html{scroll-behavior:auto;}
   }
 
   /* ---------- header ---------- */
